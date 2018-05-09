@@ -49,7 +49,7 @@ Task 1: Use Mapbox's 'Search' API to 'geocode' information from your input
 
 The docs: https://www.mapbox.com/api-documentation/#geocoding
 (For this first task, the URL pattern you'll want to produce looks like this:
-`https://api.mapbox.com/geocoding/v5/mapbox.places/{geocode_this}.json?access_token={your_mapbox_token}`)
+`https://api.mapbox.com/geocoding/v5/mapbox.places/{geocode_this}.json?access_token={pk.eyJ1Ijoid3d3d3d3d3cwNjEiLCJhIjoiY2pmZTQzMnoxMXZkZDMyb2Y3ZTRoaGFwdiJ9.1yGCQ1234xoYss1fmXhRiQ}`)
 
 You might note that this task is slightly underspecified: there are multiple different
 ways to transform text into an address. For the lab, the simplest form of geocoding
@@ -72,6 +72,7 @@ Task 2: Use Mapbox's 'directions' API to generate a route based on your origin a
 
 The docs: https://www.mapbox.com/api-documentation/#directions
 (No example url provide, try to figure it out using the docs)
+https://api.mapbox.com/directions/v5/mapbox/cycling/{coordinates}
 
 Again, the task is somewhat underspecified. Let's start with the simplest routing
 option available. Once you're getting a valid (as best you can tell) response
@@ -125,6 +126,7 @@ var state = {
   }
 };
 
+
 /* We'll use underscore's `once` function to make sure this only happens
  *  one time even if weupdate the position later
  */
@@ -144,16 +146,22 @@ var updatePosition = function(lat, lng, updated) {
   goToOrigin(lat, lng);
 };
 
+var olat;
+var olng;
+
 $(document).ready(function() {
   /* This 'if' check allows us to safely ask for the user's current position */
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(function(position) {
       updatePosition(position.coords.latitude, position.coords.longitude, position.timestamp);
+      olat = position.coords.latitude;
+      olng = position.coords.longitude;
     });
   } else {
     alert("Unable to access geolocation API!");
   }
-
+// console.log(olat);
+// console.log(olng);
 
   /* Every time a key is lifted while typing in the #dest input, disable
    * the #calculate button if no text is in the input
@@ -170,8 +178,8 @@ $(document).ready(function() {
   $("#calculate").click(function(e) {
     var dest = $('#dest').val();
     console.log(dest);
+    decDes = "https://api.mapbox.com/geocoding/v5/mapbox.places/-75.1953934%2C39.9583587.json?access_token=pk.eyJ1Ijoid3d3d3d3d3cwNjEiLCJhIjoiY2pmZTQzMnoxMXZkZDMyb2Y3ZTRoaGFwdiJ9.1yGCQ1234xoYss1fmXhRiQ&types=place"
+
   });
 
 });
-
-
